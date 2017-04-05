@@ -1,5 +1,3 @@
-
-
 entity Period {
 	startTime ZonedDateTime required
     stopTime ZonedDateTime required

@@ -2,8 +2,7 @@ package kkot.lztimer.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import kkot.lztimer.domain.Period;
-
-import kkot.lztimer.repository.PeriodRepository;
+import kkot.lztimer.service.PeriodService;
 import kkot.lztimer.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -28,10 +27,10 @@ public class PeriodResource {
 
     private static final String ENTITY_NAME = "period";
         
-    private final PeriodRepository periodRepository;
+    private final PeriodService periodService;
 
-    public PeriodResource(PeriodRepository periodRepository) {
-        this.periodRepository = periodRepository;
+    public PeriodResource(PeriodService periodService) {
+        this.periodService = periodService;
     }
 
     /**
@@ -48,7 +47,7 @@ public class PeriodResource {
         if (period.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new period cannot already have an ID")).body(null);
         }
-        Period result = periodRepository.save(period);
+        Period result = periodService.save(period);
         return ResponseEntity.created(new URI("/api/periods/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -70,7 +69,7 @@ public class PeriodResource {
         if (period.getId() == null) {
             return createPeriod(period);
         }
-        Period result = periodRepository.save(period);
+        Period result = periodService.save(period);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, period.getId().toString()))
             .body(result);
@@ -85,8 +84,7 @@ public class PeriodResource {
     @Timed
     public List<Period> getAllPeriods() {
         log.debug("REST request to get all Periods");
-        List<Period> periods = periodRepository.findAll();
-        return periods;
+        return periodService.findAll();
     }
 
     /**
@@ -99,7 +97,7 @@ public class PeriodResource {
     @Timed
     public ResponseEntity<Period> getPeriod(@PathVariable Long id) {
         log.debug("REST request to get Period : {}", id);
-        Period period = periodRepository.findOne(id);
+        Period period = periodService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(period));
     }
 
@@ -113,7 +111,7 @@ public class PeriodResource {
     @Timed
     public ResponseEntity<Void> deletePeriod(@PathVariable Long id) {
         log.debug("REST request to delete Period : {}", id);
-        periodRepository.delete(id);
+        periodService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 

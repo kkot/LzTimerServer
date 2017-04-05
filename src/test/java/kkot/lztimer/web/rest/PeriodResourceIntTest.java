@@ -4,6 +4,7 @@ import kkot.lztimer.LztimerApp;
 
 import kkot.lztimer.domain.Period;
 import kkot.lztimer.repository.PeriodRepository;
+import kkot.lztimer.service.PeriodService;
 import kkot.lztimer.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -55,6 +56,9 @@ public class PeriodResourceIntTest {
     private PeriodRepository periodRepository;
 
     @Autowired
+    private PeriodService periodService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -73,7 +77,7 @@ public class PeriodResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PeriodResource periodResource = new PeriodResource(periodRepository);
+        PeriodResource periodResource = new PeriodResource(periodService);
         this.restPeriodMockMvc = MockMvcBuilders.standaloneSetup(periodResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -236,7 +240,8 @@ public class PeriodResourceIntTest {
     @Transactional
     public void updatePeriod() throws Exception {
         // Initialize the database
-        periodRepository.saveAndFlush(period);
+        periodService.save(period);
+
         int databaseSizeBeforeUpdate = periodRepository.findAll().size();
 
         // Update the period
@@ -282,7 +287,8 @@ public class PeriodResourceIntTest {
     @Transactional
     public void deletePeriod() throws Exception {
         // Initialize the database
-        periodRepository.saveAndFlush(period);
+        periodService.save(period);
+
         int databaseSizeBeforeDelete = periodRepository.findAll().size();
 
         // Get the period

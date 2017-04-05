@@ -32,8 +32,8 @@
         }
     ],
     "changelogDate": "20170405124748",
+    "dto": "yes",
+    "service": "yes",
     "entityTableName": "period",
-    "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "pagination": "no"
 }
