@@ -9,3 +9,5 @@ entity Period {
 relationship ManyToOne {
     Period{owner} to User
 }
+
+dto Period with structmap

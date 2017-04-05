@@ -1,0 +1,80 @@
+
+
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myPeriodLabel" jhiTranslate="lztimerApp.period.home.createOrEditLabel">Create or edit a Period</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!period.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="period.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="lztimerApp.period.startTime" for="field_startTime">Start Time</label>
+            <div class="d-flex">
+                <input id="field_startTime" type="datetime-local" class="form-control" name="startTime" [(ngModel)]="period.startTime"
+                required  />
+            </div>
+            <div [hidden]="!(editForm.controls.startTime?.dirty && editForm.controls.startTime?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.startTime?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.startTime?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="lztimerApp.period.stopTime" for="field_stopTime">Stop Time</label>
+            <div class="d-flex">
+                <input id="field_stopTime" type="datetime-local" class="form-control" name="stopTime" [(ngModel)]="period.stopTime"
+                required  />
+            </div>
+            <div [hidden]="!(editForm.controls.stopTime?.dirty && editForm.controls.stopTime?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.stopTime?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.stopTime?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="lztimerApp.period.active" for="field_active">Active</label>
+            <input type="checkbox" class="form-control" name="active" id="field_active"
+                [(ngModel)]="period.active"
+             />
+            <div [hidden]="!(editForm.controls.active?.dirty && editForm.controls.active?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.active?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="lztimerApp.period.owner" for="field_owner">Owner</label>
+            <select class="form-control" id="field_owner" name="owner" [(ngModel)]="period.owner" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="userOption.id === period.owner?.id ? period.owner : userOption" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -43,6 +43,7 @@ public class CacheConfiguration {
             cm.createCache(kkot.lztimer.domain.PersistentToken.class.getName(), jcacheConfiguration);
             cm.createCache(kkot.lztimer.domain.User.class.getName() + ".persistentTokens", jcacheConfiguration);
             cm.createCache(kkot.lztimer.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
+            cm.createCache(kkot.lztimer.domain.Period.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
