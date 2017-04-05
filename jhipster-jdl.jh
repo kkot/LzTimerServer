@@ -1,0 +1,11 @@
+
+
+entity Period {
+	startTime ZonedDateTime required
+    stopTime ZonedDateTime required
+    active Boolean required
+}
+
+relationship ManyToOne {
+    Period{owner} to User
+}
