@@ -8,4 +8,5 @@ relationship ManyToOne {
     Period{owner} to User
 }
 
-dto Period with structmap
+
+service Period with serviceClass
