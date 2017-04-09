@@ -19,6 +19,24 @@ public class Period implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public Period() {
+    }
+
+    public Period(ZonedDateTime startTime, ZonedDateTime stopTime, Boolean active) {
+        this.startTime = startTime;
+        this.stopTime = stopTime;
+        this.active = active;
+    }
+
+    public Period(Period previous, Period next) {
+        if (previous.isActive() != next.isActive()) {
+            throw new IllegalStateException("Merging active with inactive");
+        }
+        this.startTime = previous.startTime;
+        this.stopTime = next.stopTime;
+        this.active = previous.active;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
@@ -108,6 +126,12 @@ public class Period implements Serializable {
             return false;
         }
         Period period = (Period) o;
+
+        if (this.id == null && period.id == null) {
+            return period.startTime.equals(this.startTime)
+                && period.stopTime.equals(this.stopTime)
+                && period.active == this.active;
+        }
         if (period.id == null || id == null) {
             return false;
         }

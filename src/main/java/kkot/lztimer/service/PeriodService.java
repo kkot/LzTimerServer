@@ -17,7 +17,7 @@ import java.util.List;
 public class PeriodService {
 
     private final Logger log = LoggerFactory.getLogger(PeriodService.class);
-    
+
     private final PeriodRepository periodRepository;
 
     public PeriodService(PeriodRepository periodRepository) {
@@ -38,7 +38,7 @@ public class PeriodService {
 
     /**
      *  Get all the periods.
-     *  
+     *
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
