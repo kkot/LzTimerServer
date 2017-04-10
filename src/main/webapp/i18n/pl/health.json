@@ -12,7 +12,7 @@
         },
         "indicator": {
             "diskSpace": "Przestrzeń dyskowa",
-            "mail": "E-mail",
+            "mail": "Email",
             "db": "Baza danych"
         },
         "table": {
