@@ -3,8 +3,10 @@ package kkot.lztimer.web.rest;
 import kkot.lztimer.LztimerApp;
 
 import kkot.lztimer.domain.Period;
+import kkot.lztimer.domain.User;
 import kkot.lztimer.repository.PeriodRepository;
 import kkot.lztimer.service.PeriodService;
+import kkot.lztimer.service.UserService;
 import kkot.lztimer.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -16,12 +18,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.security.Principal;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.ZoneOffset;
@@ -31,6 +37,9 @@ import java.util.List;
 import static kkot.lztimer.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -59,6 +68,12 @@ public class PeriodResourceIntTest {
     private PeriodService periodService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -68,9 +83,14 @@ public class PeriodResourceIntTest {
     private ExceptionTranslator exceptionTranslator;
 
     @Autowired
+    FilterChainProxy springSecurityFilterChain;
+
+    @Autowired
     private EntityManager em;
 
     private MockMvc restPeriodMockMvc;
+
+    private MockMvc restPeriodMockMvcSecurity;
 
     private Period period;
 
@@ -81,7 +101,15 @@ public class PeriodResourceIntTest {
         this.restPeriodMockMvc = MockMvcBuilders.standaloneSetup(periodResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+            .setMessageConverters(jacksonMessageConverter)
+            .build();
+
+        this.restPeriodMockMvcSecurity = MockMvcBuilders.standaloneSetup(periodResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter)
+            .apply(springSecurity(springSecurityFilterChain))
+            .build();
     }
 
     /**
@@ -106,10 +134,15 @@ public class PeriodResourceIntTest {
     @Test
     @Transactional
     public void createPeriod() throws Exception {
+        User loggedUser = userService.createUser("johndoe", "johndoe", "John", "Doe", "" +
+            "john.doe@localhost", "http://placehold.it/50x50", "en-US", true);
+        UserDetails loggedUserDetails = userDetailsService.loadUserByUsername(loggedUser.getLogin());
+
         int databaseSizeBeforeCreate = periodRepository.findAll().size();
 
         // Create the Period
-        restPeriodMockMvc.perform(post("/api/periods")
+        restPeriodMockMvcSecurity.perform(post("/api/periods")
+            .with(user(loggedUserDetails)).with(csrf())
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(period)))
             .andExpect(status().isCreated());
@@ -121,6 +154,7 @@ public class PeriodResourceIntTest {
         assertThat(testPeriod.getStartTime()).isEqualTo(DEFAULT_START_TIME);
         assertThat(testPeriod.getStopTime()).isEqualTo(DEFAULT_STOP_TIME);
         assertThat(testPeriod.isActive()).isEqualTo(DEFAULT_ACTIVE);
+        assertThat(testPeriod.getOwner()).isEqualTo(loggedUser);
     }
 
     @Test

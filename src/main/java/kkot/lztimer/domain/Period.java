@@ -1,5 +1,6 @@
 package kkot.lztimer.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -54,6 +55,7 @@ public class Period implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
+    @JsonIgnore
     @ManyToOne
     private User owner;
 

@@ -20,8 +20,11 @@ public class PeriodService {
 
     private final PeriodRepository periodRepository;
 
-    public PeriodService(PeriodRepository periodRepository) {
+    private final UserService userService;
+
+    public PeriodService(PeriodRepository periodRepository, UserService userService) {
         this.periodRepository = periodRepository;
+        this.userService = userService;
     }
 
     /**
@@ -32,6 +35,7 @@ public class PeriodService {
      */
     public Period save(Period period) {
         log.debug("Request to save Period : {}", period);
+        period.setOwner(userService.getUserWithAuthorities());
         Period result = periodRepository.save(period);
         return result;
     }
