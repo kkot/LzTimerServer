@@ -37,7 +37,9 @@ public class PeriodMerger {
             Optional<Period> lastActiveElement = periods.stream().filter(Period::isActive).reduce((a, b) -> b);
             if (lastActiveElement.isPresent()) {
                 Period mergedPeriod = new Period(lastActiveElement.get(), newElement);
-                return new PeriodsChange(mergedPeriod, asList(lastActiveElement.get()));
+                int lastActiveIndex = periods.indexOf(lastActiveElement.get());
+                List<Period> toRemove = periods.subList(lastActiveIndex, periods.size());
+                return new PeriodsChange(mergedPeriod, toRemove);
             }
         }
 

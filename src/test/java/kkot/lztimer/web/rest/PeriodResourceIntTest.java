@@ -300,10 +300,4 @@ public class PeriodResourceIntTest {
         List<Period> periodList = periodRepository.findAll();
         assertThat(periodList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Period.class);
-    }
 }
