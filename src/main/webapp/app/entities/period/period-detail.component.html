@@ -1,0 +1,37 @@
+
+<div *ngIf="period">
+    <h2><span jhiTranslate="lztimerApp.period.detail.title">Period</span> {{period.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="lztimerApp.period.startTime">Start Time</span></dt>
+        <dd>
+            <span>{{period.startTime | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="lztimerApp.period.stopTime">Stop Time</span></dt>
+        <dd>
+            <span>{{period.stopTime | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="lztimerApp.period.active">Active</span></dt>
+        <dd>
+            <span>{{period.active}}</span>
+        </dd>
+        <dt><span jhiTranslate="lztimerApp.period.owner">Owner</span></dt>
+        <dd>
+            {{period.owner?.id}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'period/'+ period.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
