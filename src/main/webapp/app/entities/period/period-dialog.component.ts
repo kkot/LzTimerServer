@@ -47,11 +47,11 @@ export class PeriodDialogComponent implements OnInit {
         if (this.period.id !== undefined) {
             this.periodService.update(this.period)
                 .subscribe((res: Period) =>
-                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
         } else {
             this.periodService.create(this.period)
                 .subscribe((res: Period) =>
-                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
         }
     }
 
@@ -62,6 +62,11 @@ export class PeriodDialogComponent implements OnInit {
     }
 
     private onSaveError (error) {
+        try {
+            error.json();
+        } catch (exception) {
+            error.message = error.text();
+        }
         this.isSaving = false;
         this.onError(error);
     }
@@ -98,7 +103,6 @@ export class PeriodPopupComponent implements OnInit, OnDestroy {
                 this.modalRef = this.periodPopupService
                     .open(PeriodDialogComponent);
             }
-
         });
     }
 

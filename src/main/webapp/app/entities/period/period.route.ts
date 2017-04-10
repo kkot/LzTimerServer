@@ -19,14 +19,16 @@ export const periodRoute: Routes = [
     data: {
         authorities: ['ROLE_USER'],
         pageTitle: 'lztimerApp.period.home.title'
-    }
+    },
+    canActivate: [UserRouteAccessService]
   }, {
     path: 'period/:id',
     component: PeriodDetailComponent,
     data: {
         authorities: ['ROLE_USER'],
         pageTitle: 'lztimerApp.period.home.title'
-    }
+    },
+    canActivate: [UserRouteAccessService]
   }
 ];
 
@@ -38,6 +40,7 @@ export const periodPopupRoute: Routes = [
         authorities: ['ROLE_USER'],
         pageTitle: 'lztimerApp.period.home.title'
     },
+    canActivate: [UserRouteAccessService],
     outlet: 'popup'
   },
   {
@@ -47,6 +50,7 @@ export const periodPopupRoute: Routes = [
         authorities: ['ROLE_USER'],
         pageTitle: 'lztimerApp.period.home.title'
     },
+    canActivate: [UserRouteAccessService],
     outlet: 'popup'
   },
   {
@@ -56,6 +60,7 @@ export const periodPopupRoute: Routes = [
         authorities: ['ROLE_USER'],
         pageTitle: 'lztimerApp.period.home.title'
     },
+    canActivate: [UserRouteAccessService],
     outlet: 'popup'
   }
 ];
