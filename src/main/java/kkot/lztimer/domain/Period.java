@@ -24,9 +24,14 @@ public class Period implements Serializable {
     }
 
     public Period(ZonedDateTime beginTime, ZonedDateTime endTime, Boolean active) {
+        this(beginTime, endTime, active, null);
+    }
+
+    public Period(ZonedDateTime beginTime, ZonedDateTime endTime, Boolean active, User owner) {
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.active = active;
+        this.owner = owner;
     }
 
     public Period(Period previous, Period next) {

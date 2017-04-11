@@ -3,6 +3,7 @@ package kkot.lztimer.service;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import kkot.lztimer.domain.Period;
+import kkot.lztimer.util.MovingClock;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,23 +29,6 @@ public class PeriodMergerUnitTest {
 
     private PeriodMerger periodMerger = new PeriodMerger();
     private MovingClock clock;
-
-    class MovingClock {
-        private ZonedDateTime current = ZonedDateTime.now();
-
-        public MovingClock(ZonedDateTime current) {
-            this.current = current;
-        }
-
-        public ZonedDateTime shiftSeconds(int seconds) {
-            current = current.plusSeconds(seconds);
-            return current;
-        }
-
-        public ZonedDateTime getCurrent() {
-            return current;
-        }
-    }
 
     @Before
     public void setUp() throws Exception {
