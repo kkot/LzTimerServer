@@ -8,6 +8,7 @@
             "entities": {
                 "main": "Entities",
                 "period": "Period",
+                "userSettings": "User Settings",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

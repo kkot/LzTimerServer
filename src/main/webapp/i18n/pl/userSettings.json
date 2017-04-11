@@ -1,0 +1,23 @@
+{
+    "lztimerApp": {
+        "userSettings" : {
+            "home": {
+                "title": "User Settings",
+                "createLabel": "Dodaj User Settings",
+                "createOrEditLabel": "Dodaj lub edytuj: User Settings"
+            },
+            "created": "Utworzono nowy User Settings z identyfikatorem {{ param }}",
+            "updated": "Uaktualniono User Settings z identyfikatorem {{ param }}",
+            "deleted": "Usunięto User Settings z identyfikatorem {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć User Settings {{ id }}?"
+            },
+            "detail": {
+                "title": "User Settings"
+            },
+            "minIdleTime": "Min Idle Time",
+            "updatedAt": "Updated At",
+            "user": "User"
+        }
+    }
+}
