@@ -23,9 +23,9 @@ public class Period implements Serializable {
     public Period() {
     }
 
-    public Period(ZonedDateTime startTime, ZonedDateTime stopTime, Boolean active) {
-        this.startTime = startTime;
-        this.stopTime = stopTime;
+    public Period(ZonedDateTime beginTime, ZonedDateTime endTime, Boolean active) {
+        this.beginTime = beginTime;
+        this.endTime = endTime;
         this.active = active;
     }
 
@@ -33,8 +33,8 @@ public class Period implements Serializable {
         if (previous.isActive() != next.isActive()) {
             throw new IllegalStateException("Merging active with inactive");
         }
-        this.startTime = previous.startTime;
-        this.stopTime = next.stopTime;
+        this.beginTime = previous.beginTime;
+        this.endTime = next.endTime;
         this.active = previous.active;
     }
 
@@ -130,14 +130,18 @@ public class Period implements Serializable {
         Period period = (Period) o;
 
         if (this.id == null && period.id == null) {
-            return period.startTime.equals(this.startTime)
-                && period.stopTime.equals(this.stopTime)
-                && period.active == this.active;
+            return areFieldsEqual(period);
         }
         if (period.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, period.id);
+    }
+
+    private boolean areFieldsEqual(Period period) {
+        return period.beginTime.equals(this.beginTime)
+            && period.endTime.equals(this.endTime)
+            && period.active == this.active;
     }
 
     @Override
