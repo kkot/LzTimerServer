@@ -17,8 +17,8 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="lztimerApp.period.startTime">Start Time</span></th>
-            <th><span jhiTranslate="lztimerApp.period.stopTime">Stop Time</span></th>
+            <th><span jhiTranslate="lztimerApp.period.beginTime">Begin Time</span></th>
+            <th><span jhiTranslate="lztimerApp.period.endTime">End Time</span></th>
             <th><span jhiTranslate="lztimerApp.period.active">Active</span></th>
             <th><span jhiTranslate="lztimerApp.period.owner">Owner</span></th>
             <th></th>
@@ -27,8 +27,8 @@
             <tbody>
             <tr *ngFor="let period of periods ;trackBy: trackId">
                 <td><a [routerLink]="['../period', period.id ]">{{period.id}}</a></td>
-                <td>{{period.startTime | date:'medium'}}</td>
-                <td>{{period.stopTime | date:'medium'}}</td>
+                <td>{{period.beginTime | date:'medium'}}</td>
+                <td>{{period.endTime | date:'medium'}}</td>
                 <td>{{period.active}}</td>
                 <td>
                     {{period.owner?.id}}

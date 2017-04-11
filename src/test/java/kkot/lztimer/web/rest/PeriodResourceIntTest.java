@@ -52,11 +52,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = LztimerApp.class)
 public class PeriodResourceIntTest {
 
-    private static final ZonedDateTime DEFAULT_START_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_START_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final ZonedDateTime DEFAULT_BEGIN_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_BEGIN_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
-    private static final ZonedDateTime DEFAULT_STOP_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_STOP_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final ZonedDateTime DEFAULT_END_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_END_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     private static final Boolean DEFAULT_ACTIVE = false;
     private static final Boolean UPDATED_ACTIVE = true;
@@ -120,8 +120,8 @@ public class PeriodResourceIntTest {
      */
     public static Period createEntity(EntityManager em) {
         Period period = new Period()
-            .startTime(DEFAULT_START_TIME)
-            .stopTime(DEFAULT_STOP_TIME)
+            .beginTime(DEFAULT_BEGIN_TIME)
+            .endTime(DEFAULT_END_TIME)
             .active(DEFAULT_ACTIVE);
         return period;
     }
@@ -151,8 +151,8 @@ public class PeriodResourceIntTest {
         List<Period> periodList = periodRepository.findAll();
         assertThat(periodList).hasSize(databaseSizeBeforeCreate + 1);
         Period testPeriod = periodList.get(periodList.size() - 1);
-        assertThat(testPeriod.getStartTime()).isEqualTo(DEFAULT_START_TIME);
-        assertThat(testPeriod.getStopTime()).isEqualTo(DEFAULT_STOP_TIME);
+        assertThat(testPeriod.getBeginTime()).isEqualTo(DEFAULT_BEGIN_TIME);
+        assertThat(testPeriod.getEndTime()).isEqualTo(DEFAULT_END_TIME);
         assertThat(testPeriod.isActive()).isEqualTo(DEFAULT_ACTIVE);
         assertThat(testPeriod.getOwner()).isEqualTo(loggedUser);
     }
@@ -178,10 +178,10 @@ public class PeriodResourceIntTest {
 
     @Test
     @Transactional
-    public void checkStartTimeIsRequired() throws Exception {
+    public void checkBeginTimeIsRequired() throws Exception {
         int databaseSizeBeforeTest = periodRepository.findAll().size();
         // set the field null
-        period.setStartTime(null);
+        period.setBeginTime(null);
 
         // Create the Period, which fails.
 
@@ -196,10 +196,10 @@ public class PeriodResourceIntTest {
 
     @Test
     @Transactional
-    public void checkStopTimeIsRequired() throws Exception {
+    public void checkEndTimeIsRequired() throws Exception {
         int databaseSizeBeforeTest = periodRepository.findAll().size();
         // set the field null
-        period.setStopTime(null);
+        period.setEndTime(null);
 
         // Create the Period, which fails.
 
@@ -241,8 +241,8 @@ public class PeriodResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(period.getId().intValue())))
-            .andExpect(jsonPath("$.[*].startTime").value(hasItem(sameInstant(DEFAULT_START_TIME))))
-            .andExpect(jsonPath("$.[*].stopTime").value(hasItem(sameInstant(DEFAULT_STOP_TIME))))
+            .andExpect(jsonPath("$.[*].beginTime").value(hasItem(sameInstant(DEFAULT_BEGIN_TIME))))
+            .andExpect(jsonPath("$.[*].endTime").value(hasItem(sameInstant(DEFAULT_END_TIME))))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
 
@@ -257,8 +257,8 @@ public class PeriodResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(period.getId().intValue()))
-            .andExpect(jsonPath("$.startTime").value(sameInstant(DEFAULT_START_TIME)))
-            .andExpect(jsonPath("$.stopTime").value(sameInstant(DEFAULT_STOP_TIME)))
+            .andExpect(jsonPath("$.beginTime").value(sameInstant(DEFAULT_BEGIN_TIME)))
+            .andExpect(jsonPath("$.endTime").value(sameInstant(DEFAULT_END_TIME)))
             .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
     }
 
@@ -281,8 +281,8 @@ public class PeriodResourceIntTest {
         // Update the period
         Period updatedPeriod = periodRepository.findOne(period.getId());
         updatedPeriod
-            .startTime(UPDATED_START_TIME)
-            .stopTime(UPDATED_STOP_TIME)
+            .beginTime(UPDATED_BEGIN_TIME)
+            .endTime(UPDATED_END_TIME)
             .active(UPDATED_ACTIVE);
 
         restPeriodMockMvc.perform(put("/api/periods")
@@ -294,8 +294,8 @@ public class PeriodResourceIntTest {
         List<Period> periodList = periodRepository.findAll();
         assertThat(periodList).hasSize(databaseSizeBeforeUpdate);
         Period testPeriod = periodList.get(periodList.size() - 1);
-        assertThat(testPeriod.getStartTime()).isEqualTo(UPDATED_START_TIME);
-        assertThat(testPeriod.getStopTime()).isEqualTo(UPDATED_STOP_TIME);
+        assertThat(testPeriod.getBeginTime()).isEqualTo(UPDATED_BEGIN_TIME);
+        assertThat(testPeriod.getEndTime()).isEqualTo(UPDATED_END_TIME);
         assertThat(testPeriod.isActive()).isEqualTo(UPDATED_ACTIVE);
     }
 

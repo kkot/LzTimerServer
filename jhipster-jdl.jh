@@ -1,12 +1,11 @@
 entity Period {
-	startTime ZonedDateTime required
-    stopTime ZonedDateTime required
+	beginTime ZonedDateTime required
+    endTime ZonedDateTime required
     active Boolean required
 }
 
 relationship ManyToOne {
     Period{owner} to User
 }
-
 
 service Period with serviceClass

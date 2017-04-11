@@ -10,14 +10,14 @@
     ],
     "fields": [
         {
-            "fieldName": "startTime",
+            "fieldName": "beginTime",
             "fieldType": "ZonedDateTime",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "stopTime",
+            "fieldName": "endTime",
             "fieldType": "ZonedDateTime",
             "fieldValidateRules": [
                 "required"

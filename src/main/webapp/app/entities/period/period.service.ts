@@ -13,8 +13,8 @@ export class PeriodService {
 
     create(period: Period): Observable<Period> {
         let copy: Period = Object.assign({}, period);
-        copy.startTime = this.dateUtils.toDate(period.startTime);
-        copy.stopTime = this.dateUtils.toDate(period.stopTime);
+        copy.beginTime = this.dateUtils.toDate(period.beginTime);
+        copy.endTime = this.dateUtils.toDate(period.endTime);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -23,9 +23,9 @@ export class PeriodService {
     update(period: Period): Observable<Period> {
         let copy: Period = Object.assign({}, period);
 
-        copy.startTime = this.dateUtils.toDate(period.startTime);
+        copy.beginTime = this.dateUtils.toDate(period.beginTime);
 
-        copy.stopTime = this.dateUtils.toDate(period.stopTime);
+        copy.endTime = this.dateUtils.toDate(period.endTime);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -34,10 +34,10 @@ export class PeriodService {
     find(id: number): Observable<Period> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
             let jsonResponse = res.json();
-            jsonResponse.startTime = this.dateUtils
-                .convertDateTimeFromServer(jsonResponse.startTime);
-            jsonResponse.stopTime = this.dateUtils
-                .convertDateTimeFromServer(jsonResponse.stopTime);
+            jsonResponse.beginTime = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse.beginTime);
+            jsonResponse.endTime = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse.endTime);
             return jsonResponse;
         });
     }
@@ -57,10 +57,10 @@ export class PeriodService {
     private convertResponse(res: any): any {
         let jsonResponse = res.json();
         for (let i = 0; i < jsonResponse.length; i++) {
-            jsonResponse[i].startTime = this.dateUtils
-                .convertDateTimeFromServer(jsonResponse[i].startTime);
-            jsonResponse[i].stopTime = this.dateUtils
-                .convertDateTimeFromServer(jsonResponse[i].stopTime);
+            jsonResponse[i].beginTime = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse[i].beginTime);
+            jsonResponse[i].endTime = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse[i].endTime);
         }
         res._body = jsonResponse;
         return res;
