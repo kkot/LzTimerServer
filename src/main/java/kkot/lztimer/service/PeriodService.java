@@ -40,6 +40,10 @@ public class PeriodService {
         return result;
     }
 
+    public void addOrMerge(Period period) {
+
+    }
+
     /**
      *  Get all the periods.
      *
