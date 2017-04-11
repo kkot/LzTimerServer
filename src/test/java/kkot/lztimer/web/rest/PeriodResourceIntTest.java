@@ -6,7 +6,7 @@ import kkot.lztimer.domain.Period;
 import kkot.lztimer.domain.User;
 import kkot.lztimer.repository.PeriodRepository;
 import kkot.lztimer.service.PeriodService;
-import kkot.lztimer.service.UserService;
+import kkot.lztimer.util.UserTestService;
 import kkot.lztimer.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -27,7 +27,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.security.Principal;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.ZoneOffset;
@@ -68,7 +67,7 @@ public class PeriodResourceIntTest {
     private PeriodService periodService;
 
     @Autowired
-    private UserService userService;
+    private UserTestService userTestService;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -134,8 +133,7 @@ public class PeriodResourceIntTest {
     @Test
     @Transactional
     public void createPeriod() throws Exception {
-        User loggedUser = userService.createUser("johndoe", "johndoe", "John", "Doe", "" +
-            "john.doe@localhost", "http://placehold.it/50x50", "en-US", true);
+        User loggedUser = userTestService.createUser("johndoe");
         UserDetails loggedUserDetails = userDetailsService.loadUserByUsername(loggedUser.getLogin());
 
         int databaseSizeBeforeCreate = periodRepository.findAll().size();

@@ -3,16 +3,13 @@ package kkot.lztimer.repository;
 import kkot.lztimer.LztimerApp;
 import kkot.lztimer.domain.Period;
 import kkot.lztimer.domain.User;
-import kkot.lztimer.service.UserService;
 import kkot.lztimer.util.MovingClock;
-import org.hamcrest.Matchers;
+import kkot.lztimer.util.UserTestService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,25 +33,19 @@ public class PeriodRepositoryIntTest {
     private PeriodRepository periodRepositoryUnderTest;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    UserDetailsService userDetailsService;
+    private UserTestService userTestService;
 
     private MovingClock clock;
 
     @Before
     public void setUp() throws Exception {
         clock = new MovingClock(ZonedDateTime.now());
-        periodRepositoryUnderTest.deleteAll();
     }
 
     @Test
     public void findEndedAfter_shouldOnlyReturnPeriodsAfterDate() throws Exception {
         // arrange
-        User user = userService.createUser("johndoe", "johndoe", "John", "Doe", "" +
-            "john.doe@localhost", "http://placehold.it/50x50", "en-US", true);
-
+        User user = userTestService.createUser("user1");
         Period beforePeriod = new Period(clock.getCurrent(), clock.shiftSeconds(1), false, user);
         ZonedDateTime thresholdDate = clock.shiftSeconds(1);
         Period afterPeriod = new Period(clock.shiftSeconds(1), clock.shiftSeconds(1), false, user);
@@ -67,6 +58,27 @@ public class PeriodRepositoryIntTest {
 
         // assert
         assertThat(periodsAfter, contains(afterPeriod));
+    }
+
+    @Test
+    public void findEndedAfter_shouldOnlyReturnPeriodsFromUser() throws Exception {
+        // arrange
+        User user1 = userTestService.createUser("user1");
+        User user2 = userTestService.createUser("user2");
+        ZonedDateTime thresholdDate = clock.getCurrent();
+        Period period1 = new Period(clock.getCurrent(), clock.shiftSeconds(1), false, user1);
+        Period period2 = new Period(clock.shiftSeconds(1), clock.shiftSeconds(1), false, user2);
+
+        periodRepositoryUnderTest.save(period1);
+        periodRepositoryUnderTest.save(period2);
+
+        // act
+        List<Period> periodsUser1 = periodRepositoryUnderTest.findEndedAfter(user1.getLogin(), thresholdDate);
+        List<Period> periodsUser2 = periodRepositoryUnderTest.findEndedAfter(user2.getLogin(), thresholdDate);
+
+        // assert
+        assertThat(periodsUser1, contains(period1));
+        assertThat(periodsUser2, contains(period2));
     }
 
 }
