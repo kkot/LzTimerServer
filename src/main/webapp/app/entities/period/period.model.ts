@@ -2,8 +2,8 @@ import { User } from '../../shared';
 export class Period {
     constructor(
         public id?: number,
-        public startTime?: any,
-        public stopTime?: any,
+        public beginTime?: any,
+        public endTime?: any,
         public active?: boolean,
         public owner?: User,
     ) {

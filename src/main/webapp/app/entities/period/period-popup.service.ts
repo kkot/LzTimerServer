@@ -23,10 +23,10 @@ export class PeriodPopupService {
 
         if (id) {
             this.periodService.find(id).subscribe(period => {
-                period.startTime = this.datePipe
-                    .transform(period.startTime, 'yyyy-MM-ddThh:mm');
-                period.stopTime = this.datePipe
-                    .transform(period.stopTime, 'yyyy-MM-ddThh:mm');
+                period.beginTime = this.datePipe
+                    .transform(period.beginTime, 'yyyy-MM-ddThh:mm');
+                period.endTime = this.datePipe
+                    .transform(period.endTime, 'yyyy-MM-ddThh:mm');
                 this.periodModalRef(component, period);
             });
         } else {

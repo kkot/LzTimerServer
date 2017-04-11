@@ -15,8 +15,8 @@
             "detail": {
                 "title": "Period"
             },
-            "startTime": "Start Time",
-            "stopTime": "Stop Time",
+            "beginTime": "Begin Time",
+            "endTime": "End Time",
             "active": "Active",
             "owner": "Owner"
         }

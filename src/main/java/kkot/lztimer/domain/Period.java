@@ -25,12 +25,12 @@ public class Period implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "start_time", nullable = false)
-    private ZonedDateTime startTime;
+    @Column(name = "begin_time", nullable = false)
+    private ZonedDateTime beginTime;
 
     @NotNull
-    @Column(name = "stop_time", nullable = false)
-    private ZonedDateTime stopTime;
+    @Column(name = "end_time", nullable = false)
+    private ZonedDateTime endTime;
 
     @NotNull
     @Column(name = "active", nullable = false)
@@ -47,30 +47,30 @@ public class Period implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getStartTime() {
-        return startTime;
+    public ZonedDateTime getBeginTime() {
+        return beginTime;
     }
 
-    public Period startTime(ZonedDateTime startTime) {
-        this.startTime = startTime;
+    public Period beginTime(ZonedDateTime beginTime) {
+        this.beginTime = beginTime;
         return this;
     }
 
-    public void setStartTime(ZonedDateTime startTime) {
-        this.startTime = startTime;
+    public void setBeginTime(ZonedDateTime beginTime) {
+        this.beginTime = beginTime;
     }
 
-    public ZonedDateTime getStopTime() {
-        return stopTime;
+    public ZonedDateTime getEndTime() {
+        return endTime;
     }
 
-    public Period stopTime(ZonedDateTime stopTime) {
-        this.stopTime = stopTime;
+    public Period endTime(ZonedDateTime endTime) {
+        this.endTime = endTime;
         return this;
     }
 
-    public void setStopTime(ZonedDateTime stopTime) {
-        this.stopTime = stopTime;
+    public void setEndTime(ZonedDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public Boolean isActive() {
@@ -123,8 +123,8 @@ public class Period implements Serializable {
     public String toString() {
         return "Period{" +
             "id=" + id +
-            ", startTime='" + startTime + "'" +
-            ", stopTime='" + stopTime + "'" +
+            ", beginTime='" + beginTime + "'" +
+            ", endTime='" + endTime + "'" +
             ", active='" + active + "'" +
             '}';
     }

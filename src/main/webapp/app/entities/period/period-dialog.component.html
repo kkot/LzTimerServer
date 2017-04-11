@@ -13,35 +13,35 @@
                    [(ngModel)]="period.id" readonly />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="lztimerApp.period.startTime" for="field_startTime">Start Time</label>
+            <label class="form-control-label" jhiTranslate="lztimerApp.period.beginTime" for="field_beginTime">Begin Time</label>
             <div class="d-flex">
-                <input id="field_startTime" type="datetime-local" class="form-control" name="startTime" [(ngModel)]="period.startTime"
+                <input id="field_beginTime" type="datetime-local" class="form-control" name="beginTime" [(ngModel)]="period.beginTime"
                 required  />
             </div>
-            <div [hidden]="!(editForm.controls.startTime?.dirty && editForm.controls.startTime?.invalid)">
+            <div [hidden]="!(editForm.controls.beginTime?.dirty && editForm.controls.beginTime?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.startTime?.errors?.required" jhiTranslate="entity.validation.required">
+                   [hidden]="!editForm.controls.beginTime?.errors?.required" jhiTranslate="entity.validation.required">
                    This field is required.
                 </small>
                 <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.startTime?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                    [hidden]="!editForm.controls.beginTime?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
                     This field should be a date and time.
                 </small>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="lztimerApp.period.stopTime" for="field_stopTime">Stop Time</label>
+            <label class="form-control-label" jhiTranslate="lztimerApp.period.endTime" for="field_endTime">End Time</label>
             <div class="d-flex">
-                <input id="field_stopTime" type="datetime-local" class="form-control" name="stopTime" [(ngModel)]="period.stopTime"
+                <input id="field_endTime" type="datetime-local" class="form-control" name="endTime" [(ngModel)]="period.endTime"
                 required  />
             </div>
-            <div [hidden]="!(editForm.controls.stopTime?.dirty && editForm.controls.stopTime?.invalid)">
+            <div [hidden]="!(editForm.controls.endTime?.dirty && editForm.controls.endTime?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.stopTime?.errors?.required" jhiTranslate="entity.validation.required">
+                   [hidden]="!editForm.controls.endTime?.errors?.required" jhiTranslate="entity.validation.required">
                    This field is required.
                 </small>
                 <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.stopTime?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                    [hidden]="!editForm.controls.endTime?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
                     This field should be a date and time.
                 </small>
             </div>
