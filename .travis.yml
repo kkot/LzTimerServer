@@ -5,3 +5,8 @@ jdk:
 
 script:
   - ./gradlew test
+  
+branches:
+  only:
+  - master
+  - jhipster_upgrade
