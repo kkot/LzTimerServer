@@ -22,6 +22,7 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'idea'
 sourceCompatibility=1.8
 targetCompatibility=1.8
 apply plugin: 'maven'
@@ -44,6 +45,13 @@ springBoot {
     mainClass = 'kkot.lztimer.LztimerApp'
     executable = true
     buildInfo()
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }
 
 if (OperatingSystem.current().isWindows()) {
@@ -119,7 +127,7 @@ configurations {
 }
 
 repositories {
-    mavenLocal()
+    //mavenLocal()
     mavenCentral()
     jcenter()
     maven { url 'http://repo.spring.io/milestone' }
