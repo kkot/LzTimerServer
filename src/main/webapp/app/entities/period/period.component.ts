@@ -48,18 +48,14 @@ periods: Period[];
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId (index: number, item: Period) {
+    trackId(index: number, item: Period) {
         return item.id;
     }
-
-
-
     registerChangeInPeriods() {
         this.eventSubscriber = this.eventManager.subscribe('periodListModification', (response) => this.loadAll());
     }
 
-
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 }

@@ -26,14 +26,14 @@ export class UserSettingsDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
         this.registerChangeInUserSettings();
     }
 
-    load (id) {
-        this.userSettingsService.find(id).subscribe(userSettings => {
+    load(id) {
+        this.userSettingsService.find(id).subscribe((userSettings) => {
             this.userSettings = userSettings;
         });
     }
@@ -47,7 +47,6 @@ export class UserSettingsDetailComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInUserSettings() {
-        this.eventSubscriber = this.eventManager.subscribe('userSettingsListModification', response => this.load(this.userSettings.id));
+        this.eventSubscriber = this.eventManager.subscribe('userSettingsListModification', (response) => this.load(this.userSettings.id));
     }
-
 }

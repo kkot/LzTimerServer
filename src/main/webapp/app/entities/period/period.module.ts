@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 
 import { LztimerSharedModule } from '../../shared';
 import { LztimerAdminModule } from '../../admin/admin.module';
-
 import {
     PeriodService,
     PeriodPopupService,
@@ -17,7 +16,7 @@ import {
     periodPopupRoute,
 } from './';
 
-let ENTITY_STATES = [
+const ENTITY_STATES = [
     ...periodRoute,
     ...periodPopupRoute,
 ];

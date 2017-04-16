@@ -38,11 +38,11 @@ export class UserSettingsDialogComponent implements OnInit {
         this.userService.query().subscribe(
             (res: Response) => { this.users = res.json(); }, (res: Response) => this.onError(res.json()));
     }
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.userSettings.id !== undefined) {
             this.userSettingsService.update(this.userSettings)
@@ -55,13 +55,13 @@ export class UserSettingsDialogComponent implements OnInit {
         }
     }
 
-    private onSaveSuccess (result: UserSettings) {
+    private onSaveSuccess(result: UserSettings) {
         this.eventManager.broadcast({ name: 'userSettingsListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         try {
             error.json();
         } catch (exception) {
@@ -71,7 +71,7 @@ export class UserSettingsDialogComponent implements OnInit {
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 
@@ -89,13 +89,13 @@ export class UserSettingsPopupComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private userSettingsPopupService: UserSettingsPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
                 this.modalRef = this.userSettingsPopupService
                     .open(UserSettingsDialogComponent, params['id']);
