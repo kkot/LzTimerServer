@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id="lztimer:test" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="kkot.lztimer" external.system.module.type="sourceSet" external.system.module.version="0.0.1-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/AsyncConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/CacheConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/CloudDatabaseConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/DatabaseConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/DateTimeFormatConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/LocaleConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/LoggingAspectConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/LoggingConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/MetricsConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/SecurityConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/social/SocialConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/ThymeleafConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/WebConfigurer.java</file>
+        </fileset>
+      </configuration>
+    </facet>
+    <facet type="hibernate" name="Hibernate">
+      <configuration>
+        <datasource-map />
+        <naming-strategy-map />
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output-test url="file://$MODULE_DIR$/../../build/classes/test" />
     <exclude-output />

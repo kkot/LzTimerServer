@@ -8,6 +8,31 @@
         </webroots>
       </configuration>
     </facet>
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/AsyncConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/CacheConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/CloudDatabaseConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/DatabaseConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/DateTimeFormatConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/LocaleConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/LoggingAspectConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/LoggingConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/MetricsConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/SecurityConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/social/SocialConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/ThymeleafConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/WebConfigurer.java</file>
+        </fileset>
+      </configuration>
+    </facet>
+    <facet type="hibernate" name="Hibernate">
+      <configuration>
+        <datasource-map />
+        <naming-strategy-map />
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/../../build/classes/main" />
