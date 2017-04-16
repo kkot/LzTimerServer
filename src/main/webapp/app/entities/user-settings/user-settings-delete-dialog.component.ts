@@ -25,12 +25,12 @@ export class UserSettingsDeleteDialogComponent {
         this.jhiLanguageService.setLocations(['userSettings']);
     }
 
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmDelete (id: number) {
-        this.userSettingsService.delete(id).subscribe(response => {
+    confirmDelete(id: number) {
+        this.userSettingsService.delete(id).subscribe((response) => {
             this.eventManager.broadcast({
                 name: 'userSettingsListModification',
                 content: 'Deleted an userSettings'
@@ -49,13 +49,13 @@ export class UserSettingsDeletePopupComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private userSettingsPopupService: UserSettingsPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             this.modalRef = this.userSettingsPopupService
                 .open(UserSettingsDeleteDialogComponent, params['id']);
         });

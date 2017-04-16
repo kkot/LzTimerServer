@@ -11,7 +11,6 @@ import { PeriodDeletePopupComponent } from './period-delete-dialog.component';
 
 import { Principal } from '../../shared';
 
-
 export const periodRoute: Routes = [
   {
     path: 'period',

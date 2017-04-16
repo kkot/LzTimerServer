@@ -25,12 +25,12 @@ export class PeriodDeleteDialogComponent {
         this.jhiLanguageService.setLocations(['period']);
     }
 
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmDelete (id: number) {
-        this.periodService.delete(id).subscribe(response => {
+    confirmDelete(id: number) {
+        this.periodService.delete(id).subscribe((response) => {
             this.eventManager.broadcast({
                 name: 'periodListModification',
                 content: 'Deleted an period'
@@ -49,13 +49,13 @@ export class PeriodDeletePopupComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private periodPopupService: PeriodPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             this.modalRef = this.periodPopupService
                 .open(PeriodDeleteDialogComponent, params['id']);
         });

@@ -48,18 +48,14 @@ userSettings: UserSettings[];
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId (index: number, item: UserSettings) {
+    trackId(index: number, item: UserSettings) {
         return item.id;
     }
-
-
-
     registerChangeInUserSettings() {
         this.eventSubscriber = this.eventManager.subscribe('userSettingsListModification', (response) => this.loadAll());
     }
 
-
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 }

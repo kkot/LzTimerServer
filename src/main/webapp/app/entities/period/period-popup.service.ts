@@ -7,7 +7,7 @@ import { PeriodService } from './period.service';
 @Injectable()
 export class PeriodPopupService {
     private isOpen = false;
-    constructor (
+    constructor(
         private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
@@ -15,14 +15,14 @@ export class PeriodPopupService {
 
     ) {}
 
-    open (component: Component, id?: number | any): NgbModalRef {
+    open(component: Component, id?: number | any): NgbModalRef {
         if (this.isOpen) {
             return;
         }
         this.isOpen = true;
 
         if (id) {
-            this.periodService.find(id).subscribe(period => {
+            this.periodService.find(id).subscribe((period) => {
                 period.beginTime = this.datePipe
                     .transform(period.beginTime, 'yyyy-MM-ddThh:mm');
                 period.endTime = this.datePipe
@@ -35,9 +35,9 @@ export class PeriodPopupService {
     }
 
     periodModalRef(component: Component, period: Period): NgbModalRef {
-        let modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
+        const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
         modalRef.componentInstance.period = period;
-        modalRef.result.then(result => {
+        modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
             this.isOpen = false;
         }, (reason) => {

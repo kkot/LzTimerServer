@@ -38,11 +38,11 @@ export class PeriodDialogComponent implements OnInit {
         this.userService.query().subscribe(
             (res: Response) => { this.users = res.json(); }, (res: Response) => this.onError(res.json()));
     }
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.period.id !== undefined) {
             this.periodService.update(this.period)
@@ -55,13 +55,13 @@ export class PeriodDialogComponent implements OnInit {
         }
     }
 
-    private onSaveSuccess (result: Period) {
+    private onSaveSuccess(result: Period) {
         this.eventManager.broadcast({ name: 'periodListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         try {
             error.json();
         } catch (exception) {
@@ -71,7 +71,7 @@ export class PeriodDialogComponent implements OnInit {
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 
@@ -89,13 +89,13 @@ export class PeriodPopupComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private periodPopupService: PeriodPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
                 this.modalRef = this.periodPopupService
                     .open(PeriodDialogComponent, params['id']);

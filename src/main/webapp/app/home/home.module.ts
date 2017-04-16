@@ -5,7 +5,6 @@ import { LztimerSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
 
-
 @NgModule({
     imports: [
         LztimerSharedModule,

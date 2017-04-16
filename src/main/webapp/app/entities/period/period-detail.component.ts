@@ -26,14 +26,14 @@ export class PeriodDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
         this.registerChangeInPeriods();
     }
 
-    load (id) {
-        this.periodService.find(id).subscribe(period => {
+    load(id) {
+        this.periodService.find(id).subscribe((period) => {
             this.period = period;
         });
     }
@@ -47,7 +47,6 @@ export class PeriodDetailComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInPeriods() {
-        this.eventSubscriber = this.eventManager.subscribe('periodListModification', response => this.load(this.period.id));
+        this.eventSubscriber = this.eventManager.subscribe('periodListModification', (response) => this.load(this.period.id));
     }
-
 }

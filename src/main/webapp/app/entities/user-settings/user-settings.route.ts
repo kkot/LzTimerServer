@@ -11,7 +11,6 @@ import { UserSettingsDeletePopupComponent } from './user-settings-delete-dialog.
 
 import { Principal } from '../../shared';
 
-
 export const userSettingsRoute: Routes = [
   {
     path: 'user-settings',
