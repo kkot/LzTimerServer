@@ -2,6 +2,7 @@ package kkot.lztimer.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -27,7 +28,7 @@ public class UserSettings implements Serializable {
     @Column(name = "min_idle_time")
     private Integer minIdleTime;
 
-    @NotNull
+    @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private ZonedDateTime updatedAt;
 

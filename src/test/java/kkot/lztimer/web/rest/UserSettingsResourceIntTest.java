@@ -47,9 +47,6 @@ public class UserSettingsResourceIntTest {
     private static final Integer DEFAULT_MIN_IDLE_TIME = 1;
     private static final Integer UPDATED_MIN_IDLE_TIME = 2;
 
-    private static final ZonedDateTime DEFAULT_UPDATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_UPDATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-
     @Autowired
     private UserSettingsRepository userSettingsRepository;
 
@@ -72,6 +69,8 @@ public class UserSettingsResourceIntTest {
 
     private UserSettings userSettings;
 
+    private ZonedDateTime timeBeforeTestStart;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -80,6 +79,11 @@ public class UserSettingsResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setMessageConverters(jacksonMessageConverter).build();
+        this.timeBeforeTestStart = getCurrentTime();
+    }
+
+    private ZonedDateTime getCurrentTime() {
+        return ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
     }
 
     /**
@@ -90,8 +94,7 @@ public class UserSettingsResourceIntTest {
      */
     public static UserSettings createEntity(EntityManager em) {
         UserSettings userSettings = new UserSettings()
-            .minIdleTime(DEFAULT_MIN_IDLE_TIME)
-            .updatedAt(DEFAULT_UPDATED_AT);
+            .minIdleTime(DEFAULT_MIN_IDLE_TIME);
         // Add required entity
         User user = UserResourceIntTest.createEntity(em);
         em.persist(user);
@@ -121,7 +124,7 @@ public class UserSettingsResourceIntTest {
         assertThat(userSettingsList).hasSize(databaseSizeBeforeCreate + 1);
         UserSettings testUserSettings = userSettingsList.get(userSettingsList.size() - 1);
         assertThat(testUserSettings.getMinIdleTime()).isEqualTo(DEFAULT_MIN_IDLE_TIME);
-        assertThat(testUserSettings.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
+        assertThat(testUserSettings.getUpdatedAt()).isAfter(timeBeforeTestStart);
     }
 
     @Test
@@ -145,24 +148,6 @@ public class UserSettingsResourceIntTest {
 
     @Test
     @Transactional
-    public void checkUpdatedAtIsRequired() throws Exception {
-        int databaseSizeBeforeTest = userSettingsRepository.findAll().size();
-        // set the field null
-        userSettings.setUpdatedAt(null);
-
-        // Create the UserSettings, which fails.
-
-        restUserSettingsMockMvc.perform(post("/api/user-settings")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(userSettings)))
-            .andExpect(status().isBadRequest());
-
-        List<UserSettings> userSettingsList = userSettingsRepository.findAll();
-        assertThat(userSettingsList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllUserSettings() throws Exception {
         // Initialize the database
         userSettingsRepository.saveAndFlush(userSettings);
@@ -173,7 +158,7 @@ public class UserSettingsResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(userSettings.getId().intValue())))
             .andExpect(jsonPath("$.[*].minIdleTime").value(hasItem(DEFAULT_MIN_IDLE_TIME)))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))));
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(userSettings.getUpdatedAt()))));
     }
 
     @Test
@@ -188,7 +173,7 @@ public class UserSettingsResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(userSettings.getId().intValue()))
             .andExpect(jsonPath("$.minIdleTime").value(DEFAULT_MIN_IDLE_TIME))
-            .andExpect(jsonPath("$.updatedAt").value(sameInstant(DEFAULT_UPDATED_AT)));
+            .andExpect(jsonPath("$.updatedAt").value(sameInstant(userSettings.getUpdatedAt())));
     }
 
     @Test
@@ -210,8 +195,8 @@ public class UserSettingsResourceIntTest {
         // Update the userSettings
         UserSettings updatedUserSettings = userSettingsRepository.findOne(userSettings.getId());
         updatedUserSettings
-            .minIdleTime(UPDATED_MIN_IDLE_TIME)
-            .updatedAt(UPDATED_UPDATED_AT);
+            .minIdleTime(UPDATED_MIN_IDLE_TIME);
+        ZonedDateTime timeBeforeUpdate = getCurrentTime();
 
         restUserSettingsMockMvc.perform(put("/api/user-settings")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -223,7 +208,7 @@ public class UserSettingsResourceIntTest {
         assertThat(userSettingsList).hasSize(databaseSizeBeforeUpdate);
         UserSettings testUserSettings = userSettingsList.get(userSettingsList.size() - 1);
         assertThat(testUserSettings.getMinIdleTime()).isEqualTo(UPDATED_MIN_IDLE_TIME);
-        assertThat(testUserSettings.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
+        assertThat(testUserSettings.getUpdatedAt()).isAfter(timeBeforeUpdate);
     }
 
     @Test
