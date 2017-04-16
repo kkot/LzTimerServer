@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lztimer.iml" filepath="$PROJECT_DIR$/.idea/modules/lztimer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lztimer_main.iml" filepath="$PROJECT_DIR$/.idea/modules/lztimer_main.iml" group="lztimer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lztimer_test.iml" filepath="$PROJECT_DIR$/.idea/modules/lztimer_test.iml" group="lztimer" />
+    </modules>
+  </component>
+</project>
