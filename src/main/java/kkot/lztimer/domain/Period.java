@@ -1,12 +1,14 @@
 package kkot.lztimer.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.security.acl.Owner;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
@@ -133,25 +135,19 @@ public class Period implements Serializable {
             return false;
         }
         Period period = (Period) o;
-
-        if (this.id == null && period.id == null) {
-            return areFieldsEqual(period);
-        }
-        if (period.id == null || id == null) {
-            return false;
-        }
-        return Objects.equals(id, period.id);
-    }
-
-    private boolean areFieldsEqual(Period period) {
         return period.beginTime.equals(this.beginTime)
             && period.endTime.equals(this.endTime)
-            && period.active == this.active;
+            && period.active == this.active
+            && Objects.equals(period.owner, this.owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return new HashCodeBuilder()
+            .append(beginTime)
+            .append(endTime)
+            .append(active)
+            .append(owner).build();
     }
 
     @Override

@@ -1,13 +1,15 @@
 package kkot.lztimer.service;
 
 import kkot.lztimer.domain.Period;
+import kkot.lztimer.domain.User;
+import kkot.lztimer.domain.UserSettings;
 import kkot.lztimer.repository.PeriodRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -23,9 +25,16 @@ public class PeriodService {
 
     private final UserService userService;
 
-    public PeriodService(PeriodRepository periodRepository, UserService userService) {
+    private final UserSettingsService userSettingsService;
+
+    private final PeriodMerger periodMerger;
+
+    public PeriodService(PeriodRepository periodRepository, UserService userService,
+                         UserSettingsService userSettingsService, PeriodMerger periodMerger) {
         this.periodRepository = periodRepository;
         this.userService = userService;
+        this.userSettingsService = userSettingsService;
+        this.periodMerger = periodMerger;
     }
 
     /**
@@ -41,8 +50,22 @@ public class PeriodService {
         return result;
     }
 
+    /**
+     * Adds new period or merge it with existing period and adds merged period after removing previously existing.
+     *
+     * @param period period to add or merge
+     */
     public void addOrMerge(Period period) {
+        User user = userService.getUserWithAuthorities();
+        UserSettings userSettings = userSettingsService.getForUser(user);
+        ZonedDateTime searchAfter = period.getBeginTime().minusSeconds(userSettings.getMinIdleTime());
+        List<Period> recentPeriods = periodRepository.findEndedAfter(user.getLogin(), searchAfter);
+        PeriodsChange periodsChange = periodMerger.merge(recentPeriods, period);
 
+        for (Period periodToRemove : periodsChange.getToRemovePeriods()) {
+            delete(periodToRemove.getId());
+        }
+        save(periodsChange.getToAddPeriod());
     }
 
     /**

@@ -7,7 +7,7 @@ import kkot.lztimer.repository.PersistentTokenRepository;
 import kkot.lztimer.config.Constants;
 import kkot.lztimer.repository.UserRepository;
 import kkot.lztimer.security.AuthoritiesConstants;
-import kkot.lztimer.security.SecurityUtils;
+import kkot.lztimer.security.SecurityService;
 import kkot.lztimer.service.util.RandomUtil;
 import kkot.lztimer.service.dto.UserDTO;
 
@@ -43,12 +43,15 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
+    private final SecurityService securityService;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository, SecurityService securityService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.socialService = socialService;
         this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
+        this.securityService = securityService;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -158,7 +161,7 @@ public class UserService {
      * @param imageUrl image URL of user
      */
     public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
-        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
+        userRepository.findOneByLogin(securityService.getCurrentUserLogin()).ifPresent(user -> {
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setEmail(email);
@@ -205,7 +208,7 @@ public class UserService {
     }
 
     public void changePassword(String password) {
-        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
+        userRepository.findOneByLogin(securityService.getCurrentUserLogin()).ifPresent(user -> {
             String encryptedPassword = passwordEncoder.encode(password);
             user.setPassword(encryptedPassword);
             log.debug("Changed password for User: {}", user);
@@ -229,7 +232,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User getUserWithAuthorities() {
-        return userRepository.findOneWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
+        return userRepository.findOneWithAuthoritiesByLogin(securityService.getCurrentUserLogin()).orElse(null);
     }
 
     /**

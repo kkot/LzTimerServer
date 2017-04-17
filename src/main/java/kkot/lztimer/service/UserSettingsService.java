@@ -96,6 +96,7 @@ public class UserSettingsService {
     UserSettings createUserSettings(User user) {
         UserSettings userSettings;
         userSettings = createDefaultSettings();
+        userSettings.setUser(user);
         try {
             userSettingsRepository.save(userSettings);
         }

@@ -1,6 +1,7 @@
 package kkot.lztimer.service;
 
 import kkot.lztimer.domain.Period;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,6 +14,7 @@ import static java.util.Collections.singletonList;
 /**
  * @author Krzysztof Kot (krzysztof.kot.pl@gmail.com)
  */
+@Service
 public class PeriodMerger {
 
     /**
