@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -49,6 +50,9 @@ public class PeriodServiceIntTest {
 
     private MovingClock clock;
 
+    @Value("${application.default-min-idle-time}")
+    private int minIdleTime;
+
     @Before
     public void setUp() throws Exception {
         clock = new MovingClock(ZonedDateTime.now());
@@ -74,5 +78,42 @@ public class PeriodServiceIntTest {
         // assert
         Period newMergedActive = new Period(active1.getBeginTime(), newActive3.getEndTime(), true, userLogged);
         assertThat(periodRepository.findAll()).containsExactlyInAnyOrder(idle2other, newMergedActive);
+    }
+
+    @Test
+    public void shouldNotMerge_whenActivePeriodsDistanceIsLongerThenMinimal() throws Exception {
+        // arrange
+        User userLogged = userTestService.createUser("user1");
+        Mockito.when(securityService.getCurrentUserLogin()).thenReturn(userLogged.getLogin());
+
+        Period active1 = new Period(clock.getCurrent(), clock.shiftSeconds(1), true, userLogged);
+        periodRepository.save(Arrays.asList(active1));
+
+        Period newActive2 = new Period(clock.shiftSeconds(minIdleTime + 1), clock.shiftSeconds(1), true, userLogged);
+
+        // act
+        periodServiceSUT.addOrMerge(newActive2);
+
+        // assert
+        assertThat(periodRepository.findAll()).containsExactlyInAnyOrder(active1, newActive2);
+    }
+
+    @Test
+    public void shouldMerge_whenActivePeriodsDistanceIsShorterThenMinimal() throws Exception {
+        // arrange
+        User userLogged = userTestService.createUser("user1");
+        Mockito.when(securityService.getCurrentUserLogin()).thenReturn(userLogged.getLogin());
+
+        Period active1 = new Period(clock.getCurrent(), clock.shiftSeconds(1), true, userLogged);
+        periodRepository.save(Arrays.asList(active1));
+
+        Period newActive2 = new Period(clock.shiftSeconds(minIdleTime - 1), clock.shiftSeconds(1), true, userLogged);
+
+        // act
+        periodServiceSUT.addOrMerge(newActive2);
+
+        // assert
+        assertThat(periodRepository.findAll()).containsExactly(
+            new Period(active1.getBeginTime(), newActive2.getEndTime(), true, userLogged));
     }
 }
