@@ -21,7 +21,6 @@
     "serviceDiscoveryType": false,
     "buildTool": "gradle",
     "enableSocialSignIn": true,
-    "rememberMeKey": "c1760f8ed74301f7e2bd2dbd32193a428cad6230",
     "clientFramework": "angular2",
     "useSass": true,
     "clientPackageManager": "npm",
