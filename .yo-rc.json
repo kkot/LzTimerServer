@@ -9,7 +9,7 @@
     "packageName": "kkot.lztimer",
     "packageFolder": "kkot/lztimer",
     "serverPort": "8080",
-    "authenticationType": "session",
+    "authenticationType": "oauth2",
     "hibernateCache": "ehcache",
     "clusteredHttpSession": false,
     "websocket": false,
