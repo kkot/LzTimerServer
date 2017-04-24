@@ -3,7 +3,6 @@ package kkot.lztimer.service;
 import kkot.lztimer.domain.Authority;
 import kkot.lztimer.domain.User;
 import kkot.lztimer.repository.AuthorityRepository;
-import kkot.lztimer.repository.PersistentTokenRepository;
 import kkot.lztimer.config.Constants;
 import kkot.lztimer.repository.UserRepository;
 import kkot.lztimer.security.AuthoritiesConstants;
@@ -17,10 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.*;
 
@@ -39,15 +38,15 @@ public class UserService {
 
     private final SocialService socialService;
 
-    private final PersistentTokenRepository persistentTokenRepository;
+    public final JdbcTokenStore jdbcTokenStore;
 
     private final AuthorityRepository authorityRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, JdbcTokenStore jdbcTokenStore, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.socialService = socialService;
-        this.persistentTokenRepository = persistentTokenRepository;
+        this.jdbcTokenStore = jdbcTokenStore;
         this.authorityRepository = authorityRepository;
     }
 
@@ -193,6 +192,8 @@ public class UserService {
     }
 
     public void deleteUser(String login) {
+        jdbcTokenStore.findTokensByUserName(login).forEach(token ->
+            jdbcTokenStore.removeAccessToken(token));
         userRepository.findOneByLogin(login).ifPresent(user -> {
             socialService.deleteUserSocialConnection(user.getLogin());
             userRepository.delete(user);
@@ -228,23 +229,6 @@ public class UserService {
         return userRepository.findOneWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
     }
 
-    /**
-     * Persistent Token are used for providing automatic authentication, they should be automatically deleted after
-     * 30 days.
-     * <p>
-     * This is scheduled to get fired everyday, at midnight.
-     * </p>
-     */
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void removeOldPersistentTokens() {
-        LocalDate now = LocalDate.now();
-        persistentTokenRepository.findByTokenDateBefore(now.minusMonths(1)).forEach(token -> {
-            log.debug("Deleting token {}", token.getSeries());
-            User user = token.getUser();
-            user.getPersistentTokens().remove(token);
-            persistentTokenRepository.delete(token);
-        });
-    }
 
     /**
      * Not activated users should be automatically deleted after 3 days.

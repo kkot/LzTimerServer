@@ -4,7 +4,6 @@ import kkot.lztimer.LztimerApp;
 import kkot.lztimer.domain.Authority;
 import kkot.lztimer.domain.User;
 import kkot.lztimer.repository.AuthorityRepository;
-import kkot.lztimer.repository.PersistentTokenRepository;
 import kkot.lztimer.repository.UserRepository;
 import kkot.lztimer.security.AuthoritiesConstants;
 import kkot.lztimer.service.MailService;
@@ -52,9 +51,6 @@ public class AccountResourceIntTest {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private PersistentTokenRepository persistentTokenRepository;
-
     @Mock
     private UserService mockUserService;
 
@@ -71,10 +67,10 @@ public class AccountResourceIntTest {
         doNothing().when(mockMailService).sendActivationEmail(anyObject());
 
         AccountResource accountResource =
-            new AccountResource(userRepository, userService, mockMailService, persistentTokenRepository);
+            new AccountResource(userRepository, userService, mockMailService);
 
         AccountResource accountUserMockResource =
-            new AccountResource(userRepository, mockUserService, mockMailService, persistentTokenRepository);
+            new AccountResource(userRepository, mockUserService, mockMailService);
 
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource).build();
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
