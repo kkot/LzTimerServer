@@ -76,9 +76,12 @@ jhipster:
         max-pool-size: 50
         queue-capacity: 10000
     security:
-        remember-me:
-            # security key (this key should be unique for your application, and kept secret)
-            key: c1760f8ed74301f7e2bd2dbd32193a428cad6230
+        authentication:
+            oauth:
+                client-id: lztimerapp
+                client-secret: my-secret-token-to-change-in-production
+                # Token is valid 30 minutes
+                token-validity-in-seconds: 1800
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
 

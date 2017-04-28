@@ -96,10 +96,6 @@ jhipster:
         exposed-headers:
         allow-credentials: true
         max-age: 1800
-    security:
-        remember-me:
-            # security key (this key should be unique for your application, and kept secret)
-            key: c1760f8ed74301f7e2bd2dbd32193a428cad6230
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: lztimer@localhost
         base-url: http://127.0.0.1:8080
