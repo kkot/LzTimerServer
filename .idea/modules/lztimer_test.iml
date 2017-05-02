@@ -17,6 +17,7 @@
           <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/social/SocialConfiguration.java</file>
           <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/ThymeleafConfiguration.java</file>
           <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/WebConfigurer.java</file>
+          <file>file://$MODULE_DIR$/../../src/main/java/kkot/lztimer/config/OAuth2ServerConfiguration.java</file>
         </fileset>
       </configuration>
     </facet>
@@ -84,6 +85,7 @@
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-config:4.2.2.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-data:4.2.2.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-web:4.2.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.security.oauth:spring-security-oauth2:2.0.12.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: io.springfox:springfox-swagger2:2.6.1" level="project" />
     <orderEntry type="library" name="Gradle: io.springfox:springfox-bean-validators:2.6.1" level="project" />
     <orderEntry type="library" name="Gradle: org.postgresql:postgresql:9.4.1212.jre7" level="project" />
@@ -157,6 +159,8 @@
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-core:4.2.2.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-commons:1.13.1.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-expression:4.3.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.10" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.jackson:jackson-mapper-asl:1.9.13" level="project" />
     <orderEntry type="library" name="Gradle: io.swagger:swagger-annotations:1.5.10" level="project" />
     <orderEntry type="library" name="Gradle: io.swagger:swagger-models:1.5.10" level="project" />
     <orderEntry type="library" name="Gradle: io.springfox:springfox-spi:2.6.1" level="project" />
@@ -167,7 +171,6 @@
     <orderEntry type="library" name="Gradle: org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.plugin:spring-plugin-metadata:1.2.0.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.4.6" level="project" />
-    <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.10" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.social:spring-social-web:1.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.social:spring-social-core:1.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.social:spring-social-config:1.1.4.RELEASE" level="project" />
@@ -195,6 +198,7 @@
     <orderEntry type="library" name="Gradle: org.thymeleaf:thymeleaf:2.1.5.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.codehaus.groovy:groovy:2.4.9" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.cloud:spring-cloud-core:1.2.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.13" level="project" />
     <orderEntry type="library" name="Gradle: io.springfox:springfox-core:2.6.1" level="project" />
     <orderEntry type="library" name="Gradle: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Gradle: net.minidev:accessors-smart:1.1" level="project" />
