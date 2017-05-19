@@ -8,8 +8,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.security.acl.Owner;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -52,11 +51,11 @@ public class Period implements Serializable {
 
     @NotNull
     @Column(name = "begin_time", nullable = false)
-    private ZonedDateTime beginTime;
+    private Instant beginTime;
 
     @NotNull
     @Column(name = "end_time", nullable = false)
-    private ZonedDateTime endTime;
+    private Instant endTime;
 
     @NotNull
     @Column(name = "active", nullable = false)
@@ -74,29 +73,29 @@ public class Period implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getBeginTime() {
+    public Instant getBeginTime() {
         return beginTime;
     }
 
-    public Period beginTime(ZonedDateTime beginTime) {
+    public Period beginTime(Instant beginTime) {
         this.beginTime = beginTime;
         return this;
     }
 
-    public void setBeginTime(ZonedDateTime beginTime) {
+    public void setBeginTime(Instant beginTime) {
         this.beginTime = beginTime;
     }
 
-    public ZonedDateTime getEndTime() {
+    public Instant getEndTime() {
         return endTime;
     }
 
-    public Period endTime(ZonedDateTime endTime) {
+    public Period endTime(Instant endTime) {
         this.endTime = endTime;
         return this;
     }
 
-    public void setEndTime(ZonedDateTime endTime) {
+    public void setEndTime(Instant endTime) {
         this.endTime = endTime;
     }
 
