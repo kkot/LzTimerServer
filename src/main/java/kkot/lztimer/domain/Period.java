@@ -108,24 +108,24 @@ public class Period implements Serializable {
             return false;
         }
         Period period = (Period) o;
-        if (period.id == null || id == null) {
+        if (period.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(id, period.id);
+        return Objects.equals(getId(), period.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
         return "Period{" +
-            "id=" + id +
-            ", beginTime='" + beginTime + "'" +
-            ", endTime='" + endTime + "'" +
-            ", active='" + active + "'" +
-            '}';
+            "id=" + getId() +
+            ", beginTime='" + getBeginTime() + "'" +
+            ", endTime='" + getEndTime() + "'" +
+            ", active='" + isActive() + "'" +
+            "}";
     }
 }

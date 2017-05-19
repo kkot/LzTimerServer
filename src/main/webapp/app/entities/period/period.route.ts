@@ -12,54 +12,54 @@ import { PeriodDeletePopupComponent } from './period-delete-dialog.component';
 import { Principal } from '../../shared';
 
 export const periodRoute: Routes = [
-  {
-    path: 'period',
-    component: PeriodComponent,
-    data: {
-        authorities: ['ROLE_USER'],
-        pageTitle: 'lztimerApp.period.home.title'
-    },
-    canActivate: [UserRouteAccessService]
-  }, {
-    path: 'period/:id',
-    component: PeriodDetailComponent,
-    data: {
-        authorities: ['ROLE_USER'],
-        pageTitle: 'lztimerApp.period.home.title'
-    },
-    canActivate: [UserRouteAccessService]
-  }
+    {
+        path: 'period',
+        component: PeriodComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'lztimerApp.period.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'period/:id',
+        component: PeriodDetailComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'lztimerApp.period.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }
 ];
 
 export const periodPopupRoute: Routes = [
-  {
-    path: 'period-new',
-    component: PeriodPopupComponent,
-    data: {
-        authorities: ['ROLE_USER'],
-        pageTitle: 'lztimerApp.period.home.title'
+    {
+        path: 'period-new',
+        component: PeriodPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'lztimerApp.period.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
     },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
-  },
-  {
-    path: 'period/:id/edit',
-    component: PeriodPopupComponent,
-    data: {
-        authorities: ['ROLE_USER'],
-        pageTitle: 'lztimerApp.period.home.title'
+    {
+        path: 'period/:id/edit',
+        component: PeriodPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'lztimerApp.period.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
     },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
-  },
-  {
-    path: 'period/:id/delete',
-    component: PeriodDeletePopupComponent,
-    data: {
-        authorities: ['ROLE_USER'],
-        pageTitle: 'lztimerApp.period.home.title'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
-  }
+    {
+        path: 'period/:id/delete',
+        component: PeriodDeletePopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'lztimerApp.period.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    }
 ];

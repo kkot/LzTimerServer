@@ -6,7 +6,6 @@ import {
     LztimerSharedLibsModule,
     LztimerSharedCommonModule,
     CSRFService,
-    AuthService,
     AuthServerProvider,
     AccountService,
     UserService,
@@ -40,7 +39,6 @@ import {
         CSRFService,
         AuthServerProvider,
         SocialService,
-        AuthService,
         UserService,
         DatePipe
     ],

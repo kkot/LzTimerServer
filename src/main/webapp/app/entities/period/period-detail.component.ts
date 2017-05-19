@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { EventManager , JhiLanguageService  } from 'ng-jhipster';
+import { EventManager  } from 'ng-jhipster';
 
 import { Period } from './period.model';
 import { PeriodService } from './period.service';
@@ -13,16 +13,14 @@ import { PeriodService } from './period.service';
 export class PeriodDetailComponent implements OnInit, OnDestroy {
 
     period: Period;
-    private subscription: any;
+    private subscription: Subscription;
     private eventSubscriber: Subscription;
 
     constructor(
         private eventManager: EventManager,
-        private jhiLanguageService: JhiLanguageService,
         private periodService: PeriodService,
         private route: ActivatedRoute
     ) {
-        this.jhiLanguageService.setLocations(['period']);
     }
 
     ngOnInit() {
@@ -47,6 +45,9 @@ export class PeriodDetailComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInPeriods() {
-        this.eventSubscriber = this.eventManager.subscribe('periodListModification', (response) => this.load(this.period.id));
+        this.eventSubscriber = this.eventManager.subscribe(
+            'periodListModification',
+            (response) => this.load(this.period.id)
+        );
     }
 }

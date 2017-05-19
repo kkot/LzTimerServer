@@ -92,23 +92,23 @@ public class UserSettings implements Serializable {
             return false;
         }
         UserSettings userSettings = (UserSettings) o;
-        if (userSettings.id == null || id == null) {
+        if (userSettings.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(id, userSettings.id);
+        return Objects.equals(getId(), userSettings.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
         return "UserSettings{" +
-            "id=" + id +
-            ", minIdleTime='" + minIdleTime + "'" +
-            ", updatedAt='" + updatedAt + "'" +
-            '}';
+            "id=" + getId() +
+            ", minIdleTime='" + getMinIdleTime() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
+            "}";
     }
 }

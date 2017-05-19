@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { EventManager , JhiLanguageService  } from 'ng-jhipster';
+import { EventManager  } from 'ng-jhipster';
 
 import { UserSettings } from './user-settings.model';
 import { UserSettingsService } from './user-settings.service';
@@ -13,16 +13,14 @@ import { UserSettingsService } from './user-settings.service';
 export class UserSettingsDetailComponent implements OnInit, OnDestroy {
 
     userSettings: UserSettings;
-    private subscription: any;
+    private subscription: Subscription;
     private eventSubscriber: Subscription;
 
     constructor(
         private eventManager: EventManager,
-        private jhiLanguageService: JhiLanguageService,
         private userSettingsService: UserSettingsService,
         private route: ActivatedRoute
     ) {
-        this.jhiLanguageService.setLocations(['userSettings']);
     }
 
     ngOnInit() {
@@ -47,6 +45,9 @@ export class UserSettingsDetailComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInUserSettings() {
-        this.eventSubscriber = this.eventManager.subscribe('userSettingsListModification', (response) => this.load(this.userSettings.id));
+        this.eventSubscriber = this.eventManager.subscribe(
+            'userSettingsListModification',
+            (response) => this.load(this.userSettings.id)
+        );
     }
 }
