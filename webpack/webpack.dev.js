@@ -21,7 +21,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         proxy: [{
             context: [
                 '/oauth',
-                <!-- jhipster-needle-add-entity-to-webpack - JHipster will add entity api paths here -->
+                /* jhipster-needle-add-entity-to-webpack - JHipster will add entity api paths here */
                 '/api',
                 '/management',
                 '/swagger-resources',

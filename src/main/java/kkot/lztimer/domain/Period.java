@@ -153,10 +153,10 @@ public class Period implements Serializable {
     @Override
     public String toString() {
         return "Period{" +
-            "id=" + id +
-            ", beginTime='" + beginTime + "'" +
-            ", endTime='" + endTime + "'" +
-            ", active='" + active + "'" +
-            '}';
+            "id=" + getId() +
+            ", beginTime='" + getBeginTime() + "'" +
+            ", endTime='" + getEndTime() + "'" +
+            ", active='" + isActive() + "'" +
+            "}";
     }
 }

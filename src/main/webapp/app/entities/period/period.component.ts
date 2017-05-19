@@ -19,13 +19,11 @@ periods: Period[];
     eventSubscriber: Subscription;
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
         private periodService: PeriodService,
         private alertService: AlertService,
         private eventManager: EventManager,
         private principal: Principal
     ) {
-        this.jhiLanguageService.setLocations(['period']);
     }
 
     loadAll() {

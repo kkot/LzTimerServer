@@ -2,8 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
+import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { Period } from './period.model';
 import { PeriodPopupService } from './period-popup.service';
@@ -21,15 +22,14 @@ export class PeriodDialogComponent implements OnInit {
     isSaving: boolean;
 
     users: User[];
+
     constructor(
         public activeModal: NgbActiveModal,
-        private jhiLanguageService: JhiLanguageService,
         private alertService: AlertService,
         private periodService: PeriodService,
         private userService: UserService,
         private eventManager: EventManager
     ) {
-        this.jhiLanguageService.setLocations(['period']);
     }
 
     ngOnInit() {
@@ -45,14 +45,17 @@ export class PeriodDialogComponent implements OnInit {
     save() {
         this.isSaving = true;
         if (this.period.id !== undefined) {
-            this.periodService.update(this.period)
-                .subscribe((res: Period) =>
-                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.subscribeToSaveResponse(
+                this.periodService.update(this.period));
         } else {
-            this.periodService.create(this.period)
-                .subscribe((res: Period) =>
-                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.subscribeToSaveResponse(
+                this.periodService.create(this.period));
         }
+    }
+
+    private subscribeToSaveResponse(result: Observable<Period>) {
+        result.subscribe((res: Period) =>
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
     private onSaveSuccess(result: Period) {

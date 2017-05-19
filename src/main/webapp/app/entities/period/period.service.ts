@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { Period } from './period.model';
 import { DateUtils } from 'ng-jhipster';
+
 @Injectable()
 export class PeriodService {
 
@@ -12,20 +13,14 @@ export class PeriodService {
     constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(period: Period): Observable<Period> {
-        const copy: Period = Object.assign({}, period);
-        copy.beginTime = this.dateUtils.toDate(period.beginTime);
-        copy.endTime = this.dateUtils.toDate(period.endTime);
+        const copy = this.convert(period);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
     }
 
     update(period: Period): Observable<Period> {
-        const copy: Period = Object.assign({}, period);
-
-        copy.beginTime = this.dateUtils.toDate(period.beginTime);
-
-        copy.endTime = this.dateUtils.toDate(period.endTime);
+        const copy = this.convert(period);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -45,7 +40,7 @@ export class PeriodService {
     query(req?: any): Observable<Response> {
         const options = this.createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
-            .map((res: any) => this.convertResponse(res))
+            .map((res: Response) => this.convertResponse(res))
         ;
     }
 
@@ -53,7 +48,7 @@ export class PeriodService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-    private convertResponse(res: any): any {
+    private convertResponse(res: Response): Response {
         const jsonResponse = res.json();
         for (let i = 0; i < jsonResponse.length; i++) {
             jsonResponse[i].beginTime = this.dateUtils
@@ -61,7 +56,7 @@ export class PeriodService {
             jsonResponse[i].endTime = this.dateUtils
                 .convertDateTimeFromServer(jsonResponse[i].endTime);
         }
-        res._body = jsonResponse;
+        res.json().data = jsonResponse;
         return res;
     }
 
@@ -79,5 +74,14 @@ export class PeriodService {
             options.search = params;
         }
         return options;
+    }
+
+    private convert(period: Period): Period {
+        const copy: Period = Object.assign({}, period);
+
+        copy.beginTime = this.dateUtils.toDate(period.beginTime);
+
+        copy.endTime = this.dateUtils.toDate(period.endTime);
+        return copy;
     }
 }

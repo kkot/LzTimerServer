@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { UserSettings } from './user-settings.model';
 import { DateUtils } from 'ng-jhipster';
+
 @Injectable()
 export class UserSettingsService {
 
@@ -12,17 +13,14 @@ export class UserSettingsService {
     constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(userSettings: UserSettings): Observable<UserSettings> {
-        const copy: UserSettings = Object.assign({}, userSettings);
-        copy.updatedAt = this.dateUtils.toDate(userSettings.updatedAt);
+        const copy = this.convert(userSettings);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
     }
 
     update(userSettings: UserSettings): Observable<UserSettings> {
-        const copy: UserSettings = Object.assign({}, userSettings);
-
-        copy.updatedAt = this.dateUtils.toDate(userSettings.updatedAt);
+        const copy = this.convert(userSettings);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -40,7 +38,7 @@ export class UserSettingsService {
     query(req?: any): Observable<Response> {
         const options = this.createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
-            .map((res: any) => this.convertResponse(res))
+            .map((res: Response) => this.convertResponse(res))
         ;
     }
 
@@ -48,13 +46,13 @@ export class UserSettingsService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-    private convertResponse(res: any): any {
+    private convertResponse(res: Response): Response {
         const jsonResponse = res.json();
         for (let i = 0; i < jsonResponse.length; i++) {
             jsonResponse[i].updatedAt = this.dateUtils
                 .convertDateTimeFromServer(jsonResponse[i].updatedAt);
         }
-        res._body = jsonResponse;
+        res.json().data = jsonResponse;
         return res;
     }
 
@@ -72,5 +70,12 @@ export class UserSettingsService {
             options.search = params;
         }
         return options;
+    }
+
+    private convert(userSettings: UserSettings): UserSettings {
+        const copy: UserSettings = Object.assign({}, userSettings);
+
+        copy.updatedAt = this.dateUtils.toDate(userSettings.updatedAt);
+        return copy;
     }
 }

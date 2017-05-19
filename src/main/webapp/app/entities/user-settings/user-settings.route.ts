@@ -12,54 +12,54 @@ import { UserSettingsDeletePopupComponent } from './user-settings-delete-dialog.
 import { Principal } from '../../shared';
 
 export const userSettingsRoute: Routes = [
-  {
-    path: 'user-settings',
-    component: UserSettingsComponent,
-    data: {
-        authorities: ['ROLE_USER'],
-        pageTitle: 'lztimerApp.userSettings.home.title'
-    },
-    canActivate: [UserRouteAccessService]
-  }, {
-    path: 'user-settings/:id',
-    component: UserSettingsDetailComponent,
-    data: {
-        authorities: ['ROLE_USER'],
-        pageTitle: 'lztimerApp.userSettings.home.title'
-    },
-    canActivate: [UserRouteAccessService]
-  }
+    {
+        path: 'user-settings',
+        component: UserSettingsComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'lztimerApp.userSettings.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'user-settings/:id',
+        component: UserSettingsDetailComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'lztimerApp.userSettings.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }
 ];
 
 export const userSettingsPopupRoute: Routes = [
-  {
-    path: 'user-settings-new',
-    component: UserSettingsPopupComponent,
-    data: {
-        authorities: ['ROLE_USER'],
-        pageTitle: 'lztimerApp.userSettings.home.title'
+    {
+        path: 'user-settings-new',
+        component: UserSettingsPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'lztimerApp.userSettings.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
     },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
-  },
-  {
-    path: 'user-settings/:id/edit',
-    component: UserSettingsPopupComponent,
-    data: {
-        authorities: ['ROLE_USER'],
-        pageTitle: 'lztimerApp.userSettings.home.title'
+    {
+        path: 'user-settings/:id/edit',
+        component: UserSettingsPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'lztimerApp.userSettings.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
     },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
-  },
-  {
-    path: 'user-settings/:id/delete',
-    component: UserSettingsDeletePopupComponent,
-    data: {
-        authorities: ['ROLE_USER'],
-        pageTitle: 'lztimerApp.userSettings.home.title'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
-  }
+    {
+        path: 'user-settings/:id/delete',
+        component: UserSettingsDeletePopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'lztimerApp.userSettings.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    }
 ];

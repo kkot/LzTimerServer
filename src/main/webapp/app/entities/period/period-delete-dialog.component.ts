@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, JhiLanguageService } from 'ng-jhipster';
+import { EventManager } from 'ng-jhipster';
 
 import { Period } from './period.model';
 import { PeriodPopupService } from './period-popup.service';
@@ -17,12 +17,10 @@ export class PeriodDeleteDialogComponent {
     period: Period;
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
         private periodService: PeriodService,
         public activeModal: NgbActiveModal,
         private eventManager: EventManager
     ) {
-        this.jhiLanguageService.setLocations(['period']);
     }
 
     clear() {

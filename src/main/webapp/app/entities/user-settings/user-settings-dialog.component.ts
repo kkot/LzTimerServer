@@ -2,8 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
+import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { UserSettings } from './user-settings.model';
 import { UserSettingsPopupService } from './user-settings-popup.service';
@@ -21,15 +22,14 @@ export class UserSettingsDialogComponent implements OnInit {
     isSaving: boolean;
 
     users: User[];
+
     constructor(
         public activeModal: NgbActiveModal,
-        private jhiLanguageService: JhiLanguageService,
         private alertService: AlertService,
         private userSettingsService: UserSettingsService,
         private userService: UserService,
         private eventManager: EventManager
     ) {
-        this.jhiLanguageService.setLocations(['userSettings']);
     }
 
     ngOnInit() {
@@ -45,14 +45,17 @@ export class UserSettingsDialogComponent implements OnInit {
     save() {
         this.isSaving = true;
         if (this.userSettings.id !== undefined) {
-            this.userSettingsService.update(this.userSettings)
-                .subscribe((res: UserSettings) =>
-                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.subscribeToSaveResponse(
+                this.userSettingsService.update(this.userSettings));
         } else {
-            this.userSettingsService.create(this.userSettings)
-                .subscribe((res: UserSettings) =>
-                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.subscribeToSaveResponse(
+                this.userSettingsService.create(this.userSettings));
         }
+    }
+
+    private subscribeToSaveResponse(result: Observable<UserSettings>) {
+        result.subscribe((res: UserSettings) =>
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
     private onSaveSuccess(result: UserSettings) {
