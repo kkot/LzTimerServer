@@ -23,12 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
-import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import static kkot.lztimer.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -43,11 +40,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = LztimerApp.class)
 public class PeriodResourceIntTest {
 
-    private static final ZonedDateTime DEFAULT_BEGIN_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_BEGIN_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final Instant DEFAULT_BEGIN_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_BEGIN_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final ZonedDateTime DEFAULT_END_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_END_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final Instant DEFAULT_END_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_END_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Boolean DEFAULT_ACTIVE = false;
     private static final Boolean UPDATED_ACTIVE = true;
@@ -207,8 +204,8 @@ public class PeriodResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(period.getId().intValue())))
-            .andExpect(jsonPath("$.[*].beginTime").value(hasItem(sameInstant(DEFAULT_BEGIN_TIME))))
-            .andExpect(jsonPath("$.[*].endTime").value(hasItem(sameInstant(DEFAULT_END_TIME))))
+            .andExpect(jsonPath("$.[*].beginTime").value(hasItem(DEFAULT_BEGIN_TIME.toString())))
+            .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
 
@@ -223,8 +220,8 @@ public class PeriodResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(period.getId().intValue()))
-            .andExpect(jsonPath("$.beginTime").value(sameInstant(DEFAULT_BEGIN_TIME)))
-            .andExpect(jsonPath("$.endTime").value(sameInstant(DEFAULT_END_TIME)))
+            .andExpect(jsonPath("$.beginTime").value(DEFAULT_BEGIN_TIME.toString()))
+            .andExpect(jsonPath("$.endTime").value(DEFAULT_END_TIME.toString()))
             .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
     }
 
