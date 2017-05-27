@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { DateUtils } from 'ng-jhipster';
 
 import { Period } from './period.model';
-import { DateUtils } from 'ng-jhipster';
+import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
 export class PeriodService {
@@ -15,65 +16,52 @@ export class PeriodService {
     create(period: Period): Observable<Period> {
         const copy = this.convert(period);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
+            const jsonResponse = res.json();
+            this.convertItemFromServer(jsonResponse);
+            return jsonResponse;
         });
     }
 
     update(period: Period): Observable<Period> {
         const copy = this.convert(period);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
+            const jsonResponse = res.json();
+            this.convertItemFromServer(jsonResponse);
+            return jsonResponse;
         });
     }
 
     find(id: number): Observable<Period> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
             const jsonResponse = res.json();
-            jsonResponse.beginTime = this.dateUtils
-                .convertDateTimeFromServer(jsonResponse.beginTime);
-            jsonResponse.endTime = this.dateUtils
-                .convertDateTimeFromServer(jsonResponse.endTime);
+            this.convertItemFromServer(jsonResponse);
             return jsonResponse;
         });
     }
 
-    query(req?: any): Observable<Response> {
-        const options = this.createRequestOption(req);
+    query(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res))
-        ;
+            .map((res: Response) => this.convertResponse(res));
     }
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-    private convertResponse(res: Response): Response {
+    private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         for (let i = 0; i < jsonResponse.length; i++) {
-            jsonResponse[i].beginTime = this.dateUtils
-                .convertDateTimeFromServer(jsonResponse[i].beginTime);
-            jsonResponse[i].endTime = this.dateUtils
-                .convertDateTimeFromServer(jsonResponse[i].endTime);
+            this.convertItemFromServer(jsonResponse[i]);
         }
-        res.json().data = jsonResponse;
-        return res;
+        return new ResponseWrapper(res.headers, jsonResponse);
     }
 
-    private createRequestOption(req?: any): BaseRequestOptions {
-        const options: BaseRequestOptions = new BaseRequestOptions();
-        if (req) {
-            const params: URLSearchParams = new URLSearchParams();
-            params.set('page', req.page);
-            params.set('size', req.size);
-            if (req.sort) {
-                params.paramsMap.set('sort', req.sort);
-            }
-            params.set('query', req.query);
-
-            options.search = params;
-        }
-        return options;
+    private convertItemFromServer(entity: any) {
+        entity.beginTime = this.dateUtils
+            .convertDateTimeFromServer(entity.beginTime);
+        entity.endTime = this.dateUtils
+            .convertDateTimeFromServer(entity.endTime);
     }
 
     private convert(period: Period): Period {
