@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
@@ -39,7 +39,7 @@ public class PeriodRepositoryIntTest {
 
     @Before
     public void setUp() throws Exception {
-        clock = new MovingClock(ZonedDateTime.now());
+        clock = new MovingClock(Instant.now());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class PeriodRepositoryIntTest {
         // arrange
         User user = userTestService.createUser("user1");
         Period beforePeriod = new Period(clock.getCurrent(), clock.shiftSeconds(1), false, user);
-        ZonedDateTime thresholdDate = clock.shiftSeconds(1);
+        Instant thresholdDate = clock.shiftSeconds(1);
         Period afterPeriod = new Period(clock.shiftSeconds(1), clock.shiftSeconds(1), false, user);
 
         periodRepositoryUnderTest.save(beforePeriod);
@@ -65,7 +65,7 @@ public class PeriodRepositoryIntTest {
         // arrange
         User user1 = userTestService.createUser("user1");
         User user2 = userTestService.createUser("user2");
-        ZonedDateTime thresholdDate = clock.getCurrent();
+        Instant thresholdDate = clock.getCurrent();
         Period period1 = new Period(clock.getCurrent(), clock.shiftSeconds(1), false, user1);
         Period period2 = new Period(clock.shiftSeconds(1), clock.shiftSeconds(1), false, user2);
 

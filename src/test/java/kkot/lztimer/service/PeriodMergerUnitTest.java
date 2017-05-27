@@ -34,7 +34,7 @@ public class PeriodMergerUnitTest {
     public void setUp() throws Exception {
         periodMerger = new PeriodMerger();
         clock = new MovingClock(ZonedDateTime.of(2015,1,1, 12, 0, 0,
-            0, ZoneId.systemDefault()));
+            0, ZoneId.systemDefault()).toInstant());
     }
 
     @Test

@@ -3,7 +3,8 @@ package kkot.lztimer.util;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
+import java.time.Instant;
 
 /**
  * Simplifies getting dates that are one after another separated by some period.
@@ -11,18 +12,18 @@ import java.time.ZonedDateTime;
  * @author Krzysztof Kot (krzysztof.kot.pl@gmail.com)
  */
 public class MovingClock {
-    private ZonedDateTime current = ZonedDateTime.now();
+    private Instant current = Instant.now();
 
-    public MovingClock(ZonedDateTime current) {
+    public MovingClock(Instant current) {
         this.current = current;
     }
 
-    public ZonedDateTime shiftSeconds(int seconds) {
+    public Instant shiftSeconds(int seconds) {
         current = current.plusSeconds(seconds);
         return current;
     }
 
-    public ZonedDateTime getCurrent() {
+    public Instant getCurrent() {
         return current;
     }
 }

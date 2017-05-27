@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class PeriodService {
     public void addOrMerge(Period period) {
         User user = userService.getUserWithAuthorities();
         UserSettings userSettings = userSettingsService.getForUser(user);
-        ZonedDateTime searchAfter = period.getBeginTime().minusSeconds(userSettings.getMinIdleTime());
+        Instant searchAfter = period.getBeginTime().minusSeconds(userSettings.getMinIdleTime());
         List<Period> recentPeriods = periodRepository.findEndedAfter(user.getLogin(), searchAfter);
         PeriodsChange periodsChange = periodMerger.merge(recentPeriods, period);
 

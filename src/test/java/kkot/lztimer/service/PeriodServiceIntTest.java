@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 
@@ -55,7 +56,7 @@ public class PeriodServiceIntTest {
 
     @Before
     public void setUp() throws Exception {
-        clock = new MovingClock(ZonedDateTime.now());
+        clock = new MovingClock(Instant.now());
     }
 
     @Test
